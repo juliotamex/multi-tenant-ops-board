@@ -2,9 +2,9 @@ default: &default
   adapter: postgresql
   encoding: unicode
   max_connections: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  host: localhost
-  username: <%= ENV["DB_USERNAME"] %>
-  password: <%= ENV["DB_PASSWORD"] %>
+  host: <%= ENV.fetch("DB_HOST", 'localhost') %>
+  username: <%= ENV.fetch("DB_USERNAME") %>
+  password: <%= ENV.fetch("DB_PASSWORD") %>
 
 development:
   <<: *default
@@ -17,9 +17,7 @@ test:
 production:
   primary: &primary_production
     <<: *default
-    database: multi_tenant_ops_board_production
-    username: multi_tenant_ops_board
-    password: <%= ENV["MULTI_TENANT_OPS_BOARD_DATABASE_PASSWORD"] %>
+    url: <%= ENV.fetch("DATABASE_URL") %>
   cache:
     <<: *primary_production
     database: multi_tenant_ops_board_production_cache
