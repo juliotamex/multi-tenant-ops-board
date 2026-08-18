@@ -17,7 +17,7 @@ test:
 production:
   primary: &primary_production
     <<: *default
-    url: <%= ENV.fetch("DATABASE_URL") %>
+    url: <%= ENV.fetch("DATABASE_URL", nil) %>
   cache:
     <<: *primary_production
     database: multi_tenant_ops_board_production_cache
